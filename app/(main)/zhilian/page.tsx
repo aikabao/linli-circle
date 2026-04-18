@@ -12,6 +12,23 @@ interface TooltipState {
   y: number;
 }
 
+interface Building {
+  id: number;
+  name: string;
+  red: number;
+  yellow: number;
+  green: number;
+  redTip: string;
+  yellowTip: string;
+  greenTip: string;
+}
+
+interface Bundle {
+  name: string;
+  icon: string;
+  desc: string;
+}
+
 // ==================== 主组件 ====================
 export default function ZhilianPage() {
   // 分屏悬停状态
@@ -28,7 +45,7 @@ export default function ZhilianPage() {
   const [hoverBundle, setHoverBundle] = useState<number | null>(null);
 
   // 沙盘气泡数据
-  const buildings = [
+  const buildings: Building[] = [
     { id: 1, name: '1栋', red: 0, yellow: 0, green: 2, redTip: '', yellowTip: '', greenTip: '2位邻居正在互动' },
     { id: 2, name: '2栋', red: 0, yellow: 0, green: 5, redTip: '', yellowTip: '', greenTip: '5位邻居正在互动' },
     { id: 3, name: '3栋', red: 3, yellow: 0, green: 0, redTip: '3条业主认证待审核', yellowTip: '', greenTip: '' },
@@ -47,7 +64,7 @@ export default function ZhilianPage() {
   ];
 
   // 包袱功能列表
-  const bundles = [
+  const bundles: Bundle[] = [
     { name: '商品上下架', icon: '📦', desc: '管理店铺货架，积分标价' },
     { name: '优惠券创建', icon: '🎫', desc: '积分定价优惠券，吸引邻里' },
     { name: '店员权限', icon: '👥', desc: '添加店员，分级授权' },
@@ -72,11 +89,6 @@ export default function ZhilianPage() {
     });
   };
   const hideTooltip = () => setTooltip({ ...tooltip, visible: false });
-
-  // 滑条联动（简化，真实场景需要图片切换，这里用文字示意）
-  useEffect(() => {
-    // 可在此处更新铜钱串插图样式，本例用文字示意
-  }, [pointsCost]);
 
   // 移动端判断
   const [isMobile, setIsMobile] = useState(false);
@@ -214,6 +226,16 @@ export default function ZhilianPage() {
 }
 
 // ==================== 左侧屏组件 ====================
+interface LeftPanelProps {
+  pointsCost: number;
+  setPointsCost: (value: number) => void;
+  buildings: Building[];
+  permissions: string[];
+  handleBubbleHover: (e: React.MouseEvent, tip: string) => void;
+  hideTooltip: () => void;
+  getCoinStringDensity: () => string;
+}
+
 function LeftPanel({
   pointsCost,
   setPointsCost,
@@ -222,7 +244,7 @@ function LeftPanel({
   handleBubbleHover,
   hideTooltip,
   getCoinStringDensity,
-}: any) {
+}: LeftPanelProps) {
   const sliderRef = useRef<HTMLInputElement>(null);
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,7 +271,7 @@ function LeftPanel({
         </div>
         <div className="relative bg-amber-50/30 rounded-xl p-4 min-h-[220px]">
           <div className="grid grid-cols-3 gap-3">
-            {buildings.map((bld: any) => (
+            {buildings.map((bld) => (
               <div key={bld.id} className="relative bg-white rounded-lg p-2 shadow text-center">
                 <div className="text-xs font-bold">{bld.name}</div>
                 <div className="h-12 bg-gray-200 rounded mt-1"></div>
@@ -300,7 +322,7 @@ function LeftPanel({
       {/* 竹简权限清单 */}
       <div className="bg-[#FDF5E6] border-x-8 border-[#B87C4F] rounded-lg p-5 mb-6 shadow-inner">
         <div className="space-y-3">
-          {permissions.map((perm, idx) => (
+          {permissions.map((perm: string, idx: number) => (
             <div key={idx} className="flex justify-between items-center border-b border-dashed border-amber-300 pb-1">
               <div className="flex items-center gap-2">
                 <span className="text-cinnabar">✓</span>
@@ -350,8 +372,23 @@ function LeftPanel({
 }
 
 // ==================== 右侧屏组件 ====================
-function RightPanel({ abacusIncome, abacusExpense, abacusRedeem, bundles, hoverBundle, setHoverBundle }: any) {
-  // 算盘拨动效果（简单模拟）
+interface RightPanelProps {
+  abacusIncome: number;
+  abacusExpense: number;
+  abacusRedeem: number;
+  bundles: Bundle[];
+  hoverBundle: number | null;
+  setHoverBundle: (idx: number | null) => void;
+}
+
+function RightPanel({
+  abacusIncome,
+  abacusExpense,
+  abacusRedeem,
+  bundles,
+  hoverBundle,
+  setHoverBundle,
+}: RightPanelProps) {
   const [shake, setShake] = useState(false);
   const handleAbacusWheel = () => {
     setShake(true);
@@ -436,10 +473,8 @@ function RightPanel({ abacusIncome, abacusExpense, abacusRedeem, bundles, hoverB
             <div className="text-xs text-gray-500">或申请广告、发起赛事</div>
           </div>
         </div>
-        {/* 流动光点装饰 */}
         <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300 animate-[shimmer_2s_infinite]"></div>
       </div>
     </div>
   );
 }
-
