@@ -1,0 +1,216 @@
+/* 1. 导入 Tailwind CSS 的基础功能 */
+@import "tailwindcss";
+
+/* 2. 定义你的设计系统主题 */
+@theme {
+  /* 自定义颜色 - 命名空间为 --color-* */
+  --color-cinnabar: #C92E20;   /* 朱红 */
+  --color-rice-paper: #F9F8F6; /* 宣纸白 */
+  --color-ink: #1A1A1A;        /* 墨色 */
+  --color-deep-red: #A61B1A;   /* 深朱红 */
+
+  /* 自定义字体 */
+  --font-family-han-yi: "HanYi RunYuan W", serif;
+  --font-family-kai: "KaiTi", serif;
+  --font-family-li-su: "LiSu", serif;
+
+  /* 自定义动画关键帧 */
+  --animate-spin-slow: spin-slow 12s linear infinite;
+}
+
+/* 3. 定义自定义动画的具体行为 */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 4. 原有的一些自定义工具类和样式保持不变 */
+@layer utilities {
+  /* 竖排文字 */
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+  /* 径向渐变遮罩（墨韵） */
+  .bg-gradient-radial {
+    background-image: radial-gradient(circle at center, transparent 30%, #1A1A1A 90%);
+  }
+  /* 磨砂宣纸效果（毛玻璃） */
+  .glass-matte {
+    background: rgba(249, 248, 246, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  /* 卷轴装裱展开动画 */
+  .page-unfold {
+    animation: scrollUnfold 1.2s ease-out forwards;
+  }
+}
+
+@keyframes scrollUnfold {
+  0% {
+    clip-path: inset(0 50% 0 50%);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+/* 自定义滚动条（朱红细柱） */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(245, 240, 235, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #C92E20;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A61B1A;
+}
+
+/* 响应式降级 */
+@media (max-width: 768px) {
+  .vertical-text {
+    writing-mode: horizontal-tb;
+    display: inline-block;
+  }
+  .glass-matte {
+    backdrop-filter: none;
+    background: rgba(249, 248, 246, 0.95);
+  }
+  .bg-gradient-radial {
+    background-image: radial-gradient(circle at center, transparent 20%, #1A1A1A 95%);
+  }
+}
+/* ========== 翻页转场动画 ========== */
+.page-transition-enter {
+  opacity: 0;
+  transform: rotateY(90deg);
+  transform-origin: left center;
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transform: rotateY(0deg);
+  transition: opacity 300ms, transform 400ms ease-out;
+}
+.page-transition-exit {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+.page-transition-exit-active {
+  opacity: 0;
+  transform: rotateY(-90deg);
+  transition: opacity 300ms, transform 400ms ease-in;
+  transform-origin: right center;
+}
+
+
+
+/* 降级：如果没有自定义光标文件，使用默认 */
+@media (max-width: 768px) {
+  body, a, button {
+    cursor: auto;
+  }
+}
+@keyframes slide {
+  0% { width: 0; left: 0; }
+  50% { width: 100%; left: 0; }
+  100% { width: 0; left: 100%; }
+}
+@keyframes waxMelt {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5) translateY(10px); opacity: 0; }
+}
+/* ========== 大明风韵 · 朱红主题 ========== */
+
+/* 全局背景纹理（仿宣纸或云纹） */
+body {
+  background-color: #FDFBF7;
+  background-image: radial-gradient(circle at 10% 20%, rgba(201,46,32,0.02) 2%, transparent 2.5%),
+                    radial-gradient(circle at 80% 70%, rgba(201,46,32,0.015) 1.5%, transparent 2%);
+  background-size: 50px 50px, 80px 80px;
+}
+
+/* 朱红渐变光晕（用于某些模块背景） */
+.bg-cinnabar-glow {
+  background: radial-gradient(ellipse at center, rgba(201,46,32,0.1) 0%, transparent 70%);
+}
+
+/* 仿古卷轴边缘 */
+.scroll-edge {
+  position: relative;
+}
+.scroll-edge::before,
+.scroll-edge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: repeating-linear-gradient(90deg, #D4A373, #B5835A 10px);
+  opacity: 0.6;
+}
+.scroll-edge::before { left: -10px; }
+.scroll-edge::after { right: -10px; }
+
+/* 印章红印效果（用于全局点缀） */
+.seal-mark {
+  display: inline-block;
+  background: #C92E20;
+  color: #F9F8F6;
+  font-family: 'KaiTi', serif;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  transform: rotate(-5deg);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* 毛笔笔触光标（可选，需要.cur文件） */
+.chinese-cursor {
+  cursor: url('/cursors/brush.cur'), auto;
+}
+:root {
+  --ease-chinese: cubic-bezier(0.42, 0, 0.58, 1); /* 中庸缓动 */
+  --ease-scroll: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+* {
+  transition-timing-function: var(--ease-chinese);
+}
+@media (max-width: 768px) {
+  canvas.fixed {
+    display: none;
+  }
+}
+/* 自定义横向滚动条 */
+.hide-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #C92E20 #f1f1f1;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+.hide-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.hide-scrollbar::-webkit-scrollbar-thumb {
+  background: #C92E20;
+  border-radius: 10px;
+}
+@keyframes waxMelt {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5) translateY(10px); opacity: 0; }
+}
