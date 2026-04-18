@@ -38,7 +38,7 @@ export default function ZhilianPage() {
   ];
 
   // 权限清单
-  const permissions = [
+  const permissions: string[] = [
     '公告发布与置顶管理 —— 免审发布，直达千家',
     '业主认证与身份审核 —— 守护社区纯净',
     '积分消耗规则动态配置 —— 自治核心',
