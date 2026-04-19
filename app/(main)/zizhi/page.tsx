@@ -353,21 +353,22 @@ export default function ZizhiPage() {
       </section>
 
       {/* ========== 底部通栏 ========== */}
-      <footer className="bg-ink text-gold py-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-gold-cloud"></div>
-        <div className="relative z-10">
-          <div className="vertical-text text-4xl text-gold mx-auto">共和自治 · 非一人之治，乃众人之约</div>
-          <div className="text-lg mt-6">即刻预约演示，开启您的社区自治新篇章。</div>
-          <button className="mt-8 relative px-10 py-4 bg-cinnabar border-2 border-amber-400 text-white font-bold rounded-lg shadow-xl hover:scale-105 transition group">
-            预约演示 · 共话自治
-            <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-[waxMelt_0.4s_ease-out_forwards]"></span>
-          </button>
-          <div className="mt-8 text-sm text-gray-400">
-            <div>已是邻里圈用户？ → 前往执事堂后台</div>
-            <div className="mt-2">想了解商家积分体系？ → 前往掌柜通</div>
+      {/* ========== 底部通栏（亮色版） ========== */}
+        <footer className="bg-amber-50 py-20 text-center relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #D4A017 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+          <div className="relative z-10">
+            <div className="vertical-text text-4xl text-cinnabar mx-auto">共和自治 · 非一人之治，乃众人之约</div>
+            <div className="text-lg mt-6 text-gray-700">即刻预约演示，开启您的社区自治新篇章。</div>
+            <button className="mt-8 relative px-10 py-4 bg-cinnabar border-2 border-amber-400 text-white font-bold rounded-lg shadow-xl hover:scale-105 transition group">
+              预约演示 · 共话自治
+              <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-[waxMelt_0.4s_ease-out_forwards]"></span>
+            </button>
+            <div className="mt-8 text-sm text-gray-500">
+              <div>已是邻里圈用户？ → 前往执事堂后台</div>
+              <div className="mt-2">想了解商家积分体系？ → 前往掌柜通</div>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
     </div>
   );
 }
