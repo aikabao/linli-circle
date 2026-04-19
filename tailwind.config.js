@@ -7,10 +7,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'cinnabar': '#C92E20',     // 朱红
-        'rice-paper': '#F9F8F6',   // 宣纸白
-        'ink': '#1A1A1A',          // 墨色
-        'deep-red': '#A61B1A',     // 深朱红
+        'cinnabar': '#C41E24',
+        'deep-red': '#8B1A1A',
+        'gold': '#D4A017',
+        'bright-gold': '#F5D300',
+        'jade-white': '#F5F2EB',
+        'palace-gray': '#4A4A4A',
       },
       fontFamily: {
         'hanYi': ['"HanYi RunYuan W"', 'serif'],
